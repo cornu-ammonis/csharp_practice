@@ -5,6 +5,73 @@ namespace Library {
  
     public class IntToWords {
 
+        public string NumberToWords(int num) {
+        
+        if(num == 0) {
+            return "Zero";
+        }
+        int digits = numDigits(num);
+        
+        string s = "";
+        if(digits == 10){
+            s = s + oneToWord(num/1000000000) + " Billion";
+            num = num%1000000000;
+            digits = digits - 1;
+        }
+        //return s + " " + num.ToString();
+
+        if(digits > 6 && digits <= 9) {
+            int millions = num/1000000;
+            if(millions == 0) {
+                num = num%1000000;
+                digits = digits - 3;
+            }
+            else {
+                s = s + threeToWords(millions) + " Million";
+                num = num%1000000;
+                digits = digits - 3;
+            }
+           
+        }
+        if(digits > 3 && digits <=6) {
+            int thousands = num/1000;
+            if(thousands == 0) {
+                num = num%1000;
+                digits = digits - 3;
+            }
+            else {
+                s = s + threeToWords(thousands) + " Thousand";
+                num = num%1000;
+                digits = digits - 3;
+            }
+            
+        }
+        if(digits == 3) {
+            int hundreds = num/100;
+            if(hundreds == 0) {
+                num = num%100;
+                digits = digits - 1;
+            }
+            else {
+                s = s + " " + oneToWord(hundreds) + " Hundred";
+                num = num%100;
+                digits = digits - 1;
+            }
+            
+        }
+        if(digits < 3) {
+            s = s + threeToWords(num);
+        }
+        if(s[0] == ' ') {
+            return s.Substring(1);
+        }
+        return s;
+        
+     }
+
+
+
+
         public string threeToWords(int num) {
              int digits = numDigits(num);
              if(digits > 3) {
@@ -14,7 +81,7 @@ namespace Library {
              int iholder;
 
              if(digits == 3){
-                 sholder = sholder + oneToWord(num/100) + " Hundred";
+                 sholder = sholder + " " + oneToWord(num/100) + " Hundred";
                  num = num%100;
                  digits = numDigits(num);
              }
@@ -24,7 +91,8 @@ namespace Library {
                     case 0:
                         break;
                     case 1:
-                        break;
+                        sholder = sholder + tensToWord(num);
+                        return sholder;
                     case 2:
                         sholder = sholder + " Twenty";
                         break;
@@ -32,7 +100,7 @@ namespace Library {
                         sholder = sholder + " Thirty";
                         break;
                     case 4:
-                        sholder = sholder + " Fourty";
+                        sholder = sholder + " Forty";
                         break;
                     case 5:
                         sholder = sholder + " Fifty";
@@ -90,6 +158,33 @@ namespace Library {
                     return "Nine";
                 
 
+            }
+            return "Error";
+        }
+
+        public string tensToWord(int num) {
+            switch(num) {
+                case 10:
+                    return " Ten";
+                case 11:
+                    return " Eleven";
+                case 12:
+                    return " Twelve";
+                case 13:
+                    return " Thirteen";
+                case 14:
+                    return " Fourteen";
+                case 15:
+                    return " Fifteen";
+                case 16:
+                    return " Sixteen";
+                case 17:
+                    return " Seventeen";
+                case 18:
+                    return " Eighteen";
+                case 19:
+                    return " Nineteen";
+                    
             }
             return "Error";
         }
