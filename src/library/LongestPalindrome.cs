@@ -1,3 +1,4 @@
+ using System.Linq;
  namespace Library {
 
      public class LongestPalindromicSubstring {
@@ -25,7 +26,20 @@
                       ans = ans + s[1].ToString();
                   }
 
+                  if(s.All(c => c.Equals(s[0]))) {
+                      return s;
+                  }
+
                 for(int i = 1; i < s.Length - 1; i++) {
+                    if(ans.Length > ((s.Length - i)*2)) {
+                        return ans;
+                    }
+                    
+                    //if all remaining characters in the array are the same 
+                    if(s.Substring(i).All(c => c.Equals(s[i])) && i > 2) {
+                        return ((s.Length - i) > ans.Length) ? s.Substring(i) : ans;
+                    }
+
                     if(s[i].Equals(s[i+1])) {
                         temp = TryEvenCenter(s, i);
                         ans = (temp.Length > ans.Length) ? temp : ans;
@@ -34,6 +48,10 @@
                     if(s[i-1].Equals(s[i+1])) {
                         temp = TryOddCenter(s, i);
                         ans = (temp.Length > ans.Length) ? temp : ans;
+                    }
+
+                    if (ans.Length == s.Length) {
+                        return ans;
                     }
                 }
 
@@ -44,10 +62,12 @@
               }
           }
 
+        
+        
         public string TryEvenCenter(string s, int i) {
-            int x = 1;
             
-            // s[i, j] -> s.Substring(i, (j-i)+1))
+            //algebra note: essentially specify start and end indexes, i and j, of substring to retrieve from s, do
+            // s[i, j] = s.Substring(i, (j-i)+1))
             //
             // functionally s[i, i + 1]
             //or s.Substring(i, (i + 1) - i + 1)
@@ -69,8 +89,27 @@
             return ans;
         }
 
-        public string TryOddCenter(string s) {
-            return null;
+        public string TryOddCenter(string s, int i) {
+            int x = 1;
+            
+            //algebra note: to do s[i-x, i+x], do
+            //s.Substring(i-x, 2*x +1)
+            
+            string ans = s.Substring(i - x, 2 * x + 1);
+            x++;
+
+            //while [i-x, i+x] will both be in bounds of string
+            while((i - x) >= 0 && i + x < s.Length) {
+
+                if(s[i-x].Equals(s[i+x])) {
+                    ans = s.Substring(i - x, 2 * x + 1);
+                    x++;
+                }
+                else {
+                    return ans;
+                }
+            }
+            return ans;
         }
 
          public string ReverseString (string s) {

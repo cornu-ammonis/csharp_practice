@@ -17,8 +17,8 @@ namespace ConsoleApplication
             //Console.WriteLine(s.numDigits(123).ToString());*/
 
             LongestPalindromicSubstring longestPalindrome = new LongestPalindromicSubstring();
-            string s = "test";
-            Console.WriteLine(s.Substring(2, 3 - 2 + 1));
+            string s = "aab"; 
+            Console.WriteLine(longestPalindrome.LongestPalindromeOptimizeAttempt1(s));
 
         }
     }
