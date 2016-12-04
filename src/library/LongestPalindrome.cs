@@ -19,6 +19,7 @@
 
           }
 
+         
           public string LongestPalindromeOptimizeAttempt1(string s) {
               string ans = s[0].ToString(), temp;
               if(s.Length > 1) {
@@ -101,6 +102,7 @@
             //while [i-x, i+x] will both be in bounds of string
             while((i - x) >= 0 && i + x < s.Length) {
 
+                //shoud make this so it doesnt call substring function until it determines end of palindrome  ****
                 if(s[i-x].Equals(s[i+x])) {
                     ans = s.Substring(i - x, 2 * x + 1);
                     x++;
@@ -120,5 +122,93 @@
              }
              return reversed;
          }
+     }
+
+     public class LongestPalindromicSubstringOptimized {
+
+         public string LongestPalindromeOptimizeAttempt2(string s) {
+
+             if(s.Length > 1) {
+                 
+                 int start = 0, length = 1, distanceFromCenter;
+                 if(s[0].Equals(s[1])) {
+                     start = 0;
+                     length = 2;
+                 }
+
+                 for(int i = 1; i < (s.Length - 1); i++ ) {
+
+                     //this checks for an odd palindromic center, e.g. a[bcb]a
+                     if(s[i-1].Equals(s[i+1])) {
+                         distanceFromCenter = tryOddCenter(s, i);
+                         
+                         if(((2*distanceFromCenter) + 1)> length) {
+                             start = i - distanceFromCenter;
+                             length = (2*distanceFromCenter) + 1;
+                         }
+                         
+                     }
+                     
+                     //checks for an even palindromic center, e.g. ab[cc]ba
+                     if(s[i].Equals(s[i+1])){
+                         distanceFromCenter = tryEvenCenter(s, i);
+
+                         if(((distanceFromCenter * 2 ) + 2) > length) {
+                             start = i - distanceFromCenter;
+                             length = (2 * distanceFromCenter) + 2;
+                         }
+                     }
+
+                 }
+                 //added so that it compiles: REMOVE THIS 
+                 return s.Substring(start, length);
+             }
+             else {
+                 return s;
+             }
+
+         }
+
+         public int tryOddCenter(string s, int i) {
+              //algebra note: to do s[i-x, i+x], do
+            //s.Substring(i-x, 2*x +1)
+
+            int x = 1;
+            
+
+            while((i - x) >= 0 && (i+x) < s.Length ) {
+
+                if(s[i-x].Equals(s[i+x])) {
+                    x++;
+                }
+                else {
+                    return x -1;
+                }
+            }
+
+            return x-1;
+
+
+         }
+
+         public int tryEvenCenter(string s, int i) {
+         
+             int x = 1;
+
+             while((i - x) >= 0 && (i + x + 1) < s.Length) {
+                 
+                 
+                 //if one index to left of [two at center] == one index to riht of [two at center]
+                 if(s[i-x].Equals(s[i+x+1])) {
+                    x++;
+                 }
+                 else {
+                     return x-1;
+                 }
+             }
+             return x-1;
+         }
+
+
      }
  } 
