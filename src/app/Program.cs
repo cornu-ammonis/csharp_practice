@@ -16,10 +16,15 @@ namespace ConsoleApplication
             Console.WriteLine(s.NumberToWords(123456789));
             //Console.WriteLine(s.numDigits(123).ToString());*/
 
-            LongestPalindromicSubstring longestPalindrome = new LongestPalindromicSubstring();
-            string s = "aab"; 
-            Console.WriteLine(longestPalindrome.LongestPalindromeOptimizeAttempt1(s));
+            //LongestPalindromicSubstring longestPalindrome = new LongestPalindromicSubstring();
+            //string s = "aab"; 
+            //Console.WriteLine(longestPalindrome.LongestPalindromeOptimizeAttempt1(s));
 
+            LFUCache cache = new LFUCache(2);
+            cache.set(1, 1);
+            cache.set(2, 2);
+            Console.WriteLine(cache.get(2));
+            
         }
     }
 }
