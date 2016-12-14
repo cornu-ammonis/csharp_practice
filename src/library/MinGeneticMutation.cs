@@ -35,11 +35,40 @@ You may assume start and end string is not the same.
        
 
         public int MinMutation(string start, string end, string[] bank) {
+            List<int> initialDifferences = findDifferingIndexes(start, end);
 
+            int currentMinCount; string temp;
+            //try starting from each difference
+            foreach (int Index in initialDifferences) {
+                StringBuilder sb = new StringBuilder(start);
+                sb[Index] = end[Index];
+                temp = sb.ToString();
+
+                if(bank.Any(s => s.Equals(temp))) {
+                    List<int> currentDifferences = findDifferingIndexes(temp, end);
+                }
+            }
+        }
+
+        public string recur(string current, string end, string[] bank, List<int> Differences) {
+            if(current.Equals(end)) {
+                return current;
+            }
+            
+            string temp;
+            foreach(int index in Differences) {
+                StringBuilder sb = new StringBuilder(current);
+                sb[index] = end[index];
+                temp = sb.ToString();
+
+                if(bank.Any(s => s.Equals(temp))) {
+                    List<int> newDifferences = findDifferingIndexes(temp, end);
+                }
+            }
         }
 
 
-        public List<int> findDifferingIndexes(string goal, string current) {
+        public List<int> findDifferingIndexes(string current, string goal) {
 
             List<int> differenceIndexes = new List<int>();
 
