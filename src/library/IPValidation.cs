@@ -1,29 +1,37 @@
+// Problem from leetcode -- given a string, determine if it is a valid IPv4 or IPv6 address
 
-
+//TODO: implement this solution using REGEX
 namespace Library {
     using System;
 public class IPValidation {
 
+//recursively determines whether the remaining character sequence is 
 public string isValidIPv4(string ip) {
+
+        //base case -- if we reach the end of string without finding an invalid characteristic it passes
         if (ip.Length == 0)
             return "IPv4";
+        
+        //leading zeros are invalid, zero may only appear first if it is alone
         if(ip[0].Equals('0') && (ip.Length > 1 && !ip[1].Equals('.')))
             return "Neither";
         int i = 0;
+
+        //finds index of next group of characters delimited by '.'
         while(i < ip.Length && !ip[i].Equals('.')) 
             i++;
         
        // i = (i >= ip.Length) ? ip.Length : i;
         string sub = ip.Substring(0, i);
-        Console.WriteLine(sub);
+    //  Console.WriteLine(sub); //print statement for debugging
         int num; 
-        if (!Int32.TryParse(sub, out num))
+        if (!Int32.TryParse(sub, out num)) // if this returns false its not a valid number
             return "Neither";
         
       
-        
+        //valid number range
         if(num >= 0 && num <= 255)
-            return (i == ip.Length) ? "IPv4" : isValidIPv4(ip.Substring(i+1));
+            return isValidIPv4(ip.Substring(i)); //recursive call starting at either the '.' or end of string
         else
             return "Neither";
 }
